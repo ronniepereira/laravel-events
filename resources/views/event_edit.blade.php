@@ -2,9 +2,10 @@
 @section('content')
 <div class="row w-100 justify-content-center align-items-center">
 <form action="{{ route('event.update', $event->id) }}" method="POST" class="form-horizontal">
+    <input type="hidden" name="_method" value="put" />
     {!! csrf_field() !!}
     <!-- Event Name -->
-        
+    
     <label for="title" class="control-label">Título</label>
     <input type="text" name="title" id="title" class="form-control" value="{{$event->title}}">
 
@@ -14,11 +15,11 @@
     <div class="dates">
         <div>
             <label for="start_date">Data Ínicio:</label>
-            <input type="datetime-local" id="start_date" name="start_date" value="{{ date('Y-m-d\TH:i:s', strtotime($event->start_date)) }}">
+            <input type="datetime-local" id="start_date" name="start_date" value="{{ date('Y-m-d\TH:i:s', strtotime($event->start_date)) }}" min="2010-01-01T00:00" max="2050-12-31T23:59">
         </div>
         <div>
             <label for="end_date">Data Fim:</label>
-            <input type="datetime-local" id="end_date" name="end_date" value="{{ date('Y-m-d\TH:i:s', strtotime($event->end_date)) }}">
+            <input type="datetime-local" id="end_date" name="end_date" value="{{ date('Y-m-d\TH:i:s', strtotime($event->end_date)) }}" min="2010-01-01T00:00" max="2050-12-31T23:59" >
         </div>
     </div>
     <!-- Add Event Button -->

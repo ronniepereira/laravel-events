@@ -7,6 +7,13 @@
         <!-- Display Validation Errors -->
         @include('common.errors')
         
+        @if (count($all_events) == 0)
+        <div class="card card-default without-events">
+            <h3>Você não tem eventos cadastrados</h3>
+            <p>Clique em Novo Evento para cadastrar</p>
+        </div>
+        @endif
+
         <!-- Today Events -->
         @if (count($today_events) > 0)
             <div class="card card-default">
@@ -154,7 +161,7 @@
                                     </td>
                                     <td class="col-sm-2 actions">
                                         <div>
-                                            <a class="btn btn-primary" href="{{route('event.edit', $event->id )}}">Editar</a>
+                                            <a class="btn btn-primary" href="{{ route('event.edit', $event->id )}}">Editar</a>
                                         </div>
                                         <form action="{{ route('event.delete', $event->id) }}" method="POST">
                                             {{ method_field('DELETE') }}
@@ -185,6 +192,13 @@
 
 .card-heading {
     margin: 10px auto;
+}
+
+.without-events {
+    display: flex;
+    flex-direction: column;
+    padding: 20 0px;
+    align-items: center;
 }
 
 .actions {

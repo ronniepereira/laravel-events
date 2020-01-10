@@ -13,11 +13,11 @@
             <div class="dates">
                 <div>
                     <label class="" for="start_date">Data Ínicio:</label>
-                    <input type="datetime-local" id="start_date" name="start_date">
+                    <input type="datetime-local" id="start_date" name="start_date" min="2010-01-01T00:00" max="2050-12-31T23:59">
                 </div>
                 <div>
                     <label class="" for="end_date">Data Fim:</label>
-                    <input type="datetime-local" id="end_date" name="end_date">
+                    <input type="datetime-local" id="end_date" name="end_date" min="2010-01-01T00:00" max="2050-12-31T23:59">
                 </div>
             </div>
             

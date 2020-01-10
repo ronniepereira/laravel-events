@@ -6,22 +6,21 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-use DateTime;
 use App\Models\Event;
 use App\Models\User;
-use Log;
 
 class EventController extends Controller
 {
-
+    
     public function index() {
-
-        $today = (new DateTime('now'))->format('Y-m-d');
+        $today = Carbon::now()->format('Y-m-d');    
         $next_five_days = date_create('+5 day')->format('Y-m-d');
         
         $events = Event::where('user_id', Auth::id())->paginate(5);
-        $today_events = Event::whereBetween('start_date', ["$today ". '00:00:00', "$today ". '23:59:59'])->get();
-        $next_five_days_events = Event::whereBetween('start_date', ["$today " . "00:00:00", "$next_five_days " . "23:59:59"])->get();
+        $today_events = Event::where('user_id', Auth::id())
+                                ->whereBetween('start_date', ["$today ". '00:00:00', "$today ". '23:59:59'])->get();
+        $next_five_days_events = Event::where('user_id', Auth::id())
+                                ->whereBetween('start_date', ["$today " . "00:00:00", "$next_five_days " . "23:59:59"])->get();
 
 
         return view('events', [
@@ -36,12 +35,14 @@ class EventController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required|max:100',
             'description' => 'required|max:200',
-            'start_date' => 'required',
-            'end_date' => 'required',
+            'start_date' => "date",
+            'end_date' => "date|after_or_equal:start_date",
         ]);
 
         if ($validator->fails()) {
-            return back()->withInput();;
+            return back()
+                ->withInput()
+                ->withErrors($validator);
         }
 
         
@@ -56,7 +57,7 @@ class EventController extends Controller
         $event->end_date = $end_date;
         $event->save();
 
-        return redirect('event.index');
+        return redirect()->route('event.index');
     }
 
     public function edit($id)
@@ -78,17 +79,20 @@ class EventController extends Controller
 
     public function update(Request $request) 
     {
+        Log::alert($request->start_date);
         $validator = Validator::make($request->all(), [
             'title' => 'required|max:100',
             'description' => 'required|max:200',
-            'start_date' => 'required',
-            'end_date' => 'required',
+            'start_date' => "date",
+            'end_date' => "date|after_or_equal:start_date",
         ]);
 
+        
         if ($validator->fails()) {
+            Log::alert($validator->errors());
             return back()
-                ->withInput()
-                ->withErrors($validator);
+                ->withErrors($validator)
+                ->withInput();
         }
 
         $start_date = Carbon::parse($request->start_date)->format('Y-m-d H:i:s');
