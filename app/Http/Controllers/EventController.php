@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Models\Event;
 use App\Models\User;
+use App\Http\Requests\EventRegisterValidation;
 
 class EventController extends Controller
 {
@@ -16,13 +17,16 @@ class EventController extends Controller
         $today = Carbon::now()->format('Y-m-d');    
         $next_five_days = date_create('+5 day')->format('Y-m-d');
         
-        $events = Event::where('user_id', Auth::id())->paginate(5);
-        $today_events = Event::where('user_id', Auth::id())
-                                ->whereBetween('start_date', ["$today ". '00:00:00', "$today ". '23:59:59'])->get();
-        $next_five_days_events = Event::where('user_id', Auth::id())
-                                ->whereBetween('start_date', ["$today " . "00:00:00", "$next_five_days " . "23:59:59"])->get();
-
-
+        $events = User::find(Auth::id())->events()->paginate(5);
+        $today_events = User::find(Auth::id())->events()
+            ->where('start_date', '<', "$today "."23:59:59")
+            ->where('end_date', '>', "$today "."00:00:00")
+            ->get();
+        $next_five_days_events = User::find(Auth::id())->events()
+            ->where('start_date', '>', "$today "."23:59:59")
+            ->where('start_date', '<=', "$next_five_days "."23:59:59")
+            ->get();
+        
         return view('events', [
             'all_events' => $events,
             'today_events' => $today_events,
@@ -30,22 +34,8 @@ class EventController extends Controller
         ]);
     }
 
-    public function store(Request $request) {
+    public function store(EventRegisterValidation $request) {
 
-        $validator = Validator::make($request->all(), [
-            'title' => 'required|max:100',
-            'description' => 'required|max:200',
-            'start_date' => "date",
-            'end_date' => "date|after_or_equal:start_date",
-        ]);
-
-        if ($validator->fails()) {
-            return back()
-                ->withInput()
-                ->withErrors($validator);
-        }
-
-        
         $start_date = Carbon::parse($request->start_date)->format('Y-m-d H:i:s');
         $end_date = Carbon::parse($request->end_date)->format('Y-m-d H:i:s');
 
@@ -77,24 +67,8 @@ class EventController extends Controller
         return view('event_edit', compact('event'));
     }
 
-    public function update(Request $request) 
+    public function update(EventRegisterValidation $request) 
     {
-        Log::alert($request->start_date);
-        $validator = Validator::make($request->all(), [
-            'title' => 'required|max:100',
-            'description' => 'required|max:200',
-            'start_date' => "date",
-            'end_date' => "date|after_or_equal:start_date",
-        ]);
-
-        
-        if ($validator->fails()) {
-            Log::alert($validator->errors());
-            return back()
-                ->withErrors($validator)
-                ->withInput();
-        }
-
         $start_date = Carbon::parse($request->start_date)->format('Y-m-d H:i:s');
         $end_date = Carbon::parse($request->end_date)->format('Y-m-d H:i:s');
 
