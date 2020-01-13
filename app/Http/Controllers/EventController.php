@@ -9,23 +9,36 @@ use Carbon\Carbon;
 use App\Models\Event;
 use App\Models\User;
 use App\Http\Requests\EventRegisterValidation;
+use App\Exports\EventsExport;
+use App\Imports\EventsImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class EventController extends Controller
 {
-    
-    public function index() {
-        $today = Carbon::now()->format('Y-m-d');    
-        $next_five_days = date_create('+5 day')->format('Y-m-d');
-        
-        $events = User::find(Auth::id())->events()->paginate(5);
-        $today_events = User::find(Auth::id())->events()
+    private function today_events() {
+        $today = Carbon::now()->format('Y-m-d');
+
+        return User::find(Auth::id())->events()
             ->where('start_date', '<', "$today "."23:59:59")
             ->where('end_date', '>', "$today "."00:00:00")
             ->get();
-        $next_five_days_events = User::find(Auth::id())->events()
+    }
+
+    private function next_five_days_events() {
+        $today = Carbon::now()->format('Y-m-d');
+        $next_five_days = date_create('+5 day')->format('Y-m-d');
+
+        return User::find(Auth::id())->events()
             ->where('start_date', '>', "$today "."23:59:59")
             ->where('start_date', '<=', "$next_five_days "."23:59:59")
             ->get();
+    }
+    
+    public function index() {
+        
+        $events = User::find(Auth::id())->events()->paginate(5);
+        $today_events = $this->today_events();
+        $next_five_days_events = $this->next_five_days_events();
         
         return view('events', [
             'all_events' => $events,
@@ -91,5 +104,17 @@ class EventController extends Controller
 
     public function create() {
         return view('event_create');
+    }
+   
+    public function export() 
+    {
+        return Excel::download(new EventsExport, 'eventos.csv');
+    }
+   
+    public function import() 
+    {
+        Excel::import(new EventsImport,request()->file('file'));
+           
+        return back();
     }
 }

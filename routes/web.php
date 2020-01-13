@@ -27,5 +27,8 @@ Route::prefix('/event')->group(function () {
         Route::put('/edit/{id}', 'EventController@update')->name('event.update');
         Route::post('/', 'EventController@store')->name('event.store    ');
         Route::delete('/{id}', 'EventController@delete')->name('event.delete');
+
+        Route::get('export', 'EventController@export')->name('export');
+        Route::post('import', 'EventController@import')->name('import');
     });
 });
