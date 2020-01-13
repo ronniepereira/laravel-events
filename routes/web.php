@@ -30,6 +30,5 @@ Route::prefix('/event')->group(function () {
 
         Route::get('export', 'EventController@export')->name('export');
         Route::post('import', 'EventController@import')->name('import');
-        Route::get('importExportView', 'EventController@importExportView');
     });
 });

@@ -105,11 +105,6 @@ class EventController extends Controller
     public function create() {
         return view('event_create');
     }
-
-    public function importExportView()
-    {
-       return view('import');
-    }
    
     public function export() 
     {

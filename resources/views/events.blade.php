@@ -130,7 +130,11 @@
                     <h4 class="text-center" ><strong>Todos eventos</strong></h4>
                 </div>
 
-                <div class="card-body">    
+                <div class="card-body">  
+                    <div class="btn-export">
+                        <a class="btn btn-warning" href="{{ route('export') }}">Exportar para CSV</a>
+                    </div>
+                    
                     <table class="table event-table">
                         <!-- Table Headings -->
                         <thead>
@@ -154,10 +158,10 @@
                                         <div>{{ $event->description }}</div>
                                     </td>
                                     <td class="col-sm-2 table-text">
-                                        <div>{{ date('d/m/Y \a\s h:i', strtotime($event->start_date)) }}</div>
+                                        <div>{{ date('d/m/Y \a\s H:i', strtotime($event->start_date)) }}</div>
                                     </td>
                                     <td class="col-sm-2 table-text">
-                                        <div>{{ date('d/m/Y \a\s h:i', strtotime($event->end_date)) }}</div>
+                                        <div>{{ date('d/m/Y \a\s H:i', strtotime($event->end_date)) }}</div>
                                     </td>
                                     <td class="col-sm-2 actions">
                                         <div>
@@ -176,14 +180,20 @@
                     <div class="all_events_link">
                         {{ $all_events->links() }}
                     </div>
-                    <div>
-                        <a class="btn btn-warning" href="{{ route('export') }}">Export User Data</a>
-                    </div>
                 </div>
             </div>
         @endif
-
-        <a class="btn btn-success" href="{{ url('/event/create') }}">Novo evento</a>
+            <div class="border card-body new-event">
+                <h4 class="text-center" ><strong>Novo evento</strong></h4>
+                <form action="{{ route('import') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <input type="file" name="file" class="input-import ">
+                    <button class="btn btn-primary">Importar via CSV</button>
+                    <a class="btn btn-success" href="{{ url('/event/create') }}">Novo evento</a>
+                </form>
+            </div>
+        </div>
+        
     </div>
 @endsection
 
@@ -210,6 +220,46 @@
 
 .actions div {
     margin-right: 5px;
+}
+
+.input-import {
+    width: 70%;
+    padding: 5px;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.new-event {
+    display: flex;
+    flex-direction: column;
+}
+
+.new-event form {
+    display: flex;
+}
+
+.new-event form input {
+    margin-right: 10px;
+}
+
+.new-event form button {
+    margin-right: 10px;
+}
+
+.btn-export {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-export a {
+    margin: 10px;
 }
 
 .all_events_link {
