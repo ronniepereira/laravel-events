@@ -18,7 +18,7 @@
         @if (count($today_events) > 0)
             <div class="card card-default">
                 <div class="card-heading">
-                    <h4 class="card-title text-center" >Eventos hoje</h4>
+                    <h4 class="card-title text-center" ><strong>Eventos hoje / Em andamento</strong></h4>
                 </div>
 
                 <div class="card-body">    
@@ -72,7 +72,7 @@
         @if (count($next_five_days_events) > 0)
             <div class="card card-default">
                 <div class="card-heading">
-                    <h4 class="card-title text-center" >Eventos nos próximos cinco dias</h4>
+                    <h4 class="card-title text-center" ><strong>Eventos nos próximos cinco dias</strong></h4>
                 </div>
 
                 <div class="card-body">    
@@ -127,7 +127,7 @@
         @if (count($all_events) > 0)
             <div class="card card-default">
                 <div class="card-heading">
-                    <h4 class="text-center" >Todos eventos</h4>
+                    <h4 class="text-center" ><strong>Todos eventos</strong></h4>
                 </div>
 
                 <div class="card-body">    

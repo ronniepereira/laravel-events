@@ -8,18 +8,29 @@
     
     <label for="title" class="control-label">Título</label>
     <input type="text" name="title" id="title" class="form-control" value="{{$event->title}}">
+    @error('title')
+        <div class="alert alert-danger">{{ $message }}</div>
+    @enderror
 
     <label for="description" class="control-label">Descrição</label>
-    <textarea rows="10" name="description" id="description" class="form-control">{{ $event->description }}</textarea>
-
+    <textarea rows="10" name="description" id="description" class="form-control description">{{ $event->description }}</textarea>
+    @error('description')
+        <div class="alert alert-danger">{{ $message }}</div>
+    @enderror
     <div class="dates">
         <div>
             <label for="start_date">Data Ínicio:</label>
-            <input type="datetime-local" id="start_date" name="start_date" value="{{ date('Y-m-d\TH:i:s', strtotime($event->start_date)) }}" min="2010-01-01T00:00" max="2050-12-31T23:59">
+            <input type="datetime-local" id="start_date" name="start_date" class="form-control" value="{{ date('Y-m-d\TH:i:s', strtotime($event->start_date)) }}" min="2010-01-01T00:00" max="2050-12-31T23:59">
+            @error('start_date')
+                <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
         </div>
         <div>
             <label for="end_date">Data Fim:</label>
-            <input type="datetime-local" id="end_date" name="end_date" value="{{ date('Y-m-d\TH:i:s', strtotime($event->end_date)) }}" min="2010-01-01T00:00" max="2050-12-31T23:59" >
+            <input type="datetime-local" id="end_date" name="end_date" class="form-control" value="{{ date('Y-m-d\TH:i:s', strtotime($event->end_date)) }}" min="2010-01-01T00:00" max="2050-12-31T23:59" >
+            @error('end_date')
+                <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
         </div>
     </div>
     <!-- Add Event Button -->
@@ -51,19 +62,22 @@ form label:first-child {
     margin-top: 0px;
 }
 
+.description {
+    resize: none;
+}
+
 .dates {
     margin: 20px auto;
     display: flex;
     justify-content: space-between;
 }
 
-.dates div input {
-    padding: 0 4px;
-    border-radius: 4px;
-}
-
 .btn {
     margin-top: 20px;
     right: 0;
+}
+
+.alert-danger {
+    margin-top: 10px;
 }
 </style>

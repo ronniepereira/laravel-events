@@ -35,9 +35,9 @@ class EventRegisterValidation extends FormRequest
     {
         return [
             'title.required' => 'Titulo é necessário',
-            'title.max' => 'A title is required',
+            'title.max' => 'Titulo deve ter no máximo 100 caracteres',
             'description.required'  => 'Descrição é necessário',
-            'description.max'  => 'Descrição deve ter nomáximo 200 caracteres',
+            'description.max'  => 'Descrição deve ter no máximo 200 caracteres',
             'start_date.required'  => 'Data ínicio é necessário',
             'start_date.date'  => 'Data ínvalida',
             'end_date.required'  => 'Data fím é necessário',
