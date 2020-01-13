@@ -93,6 +93,10 @@ php artisan serve
 
 You can then browse to [http://localhost:8000](http://localhost:8000) in your web browser.
 
+### Demo the Application
+
+![](owinteractive.gif)
+
 ## Challenge Requirements
 
 The Challenge app requirements will be sent by email, for they change accordinly to the opportunity
