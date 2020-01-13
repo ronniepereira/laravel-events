@@ -62,7 +62,25 @@ npm install
 
 ### Preping the application
 
-As any new [Laravel][lararel] install there is a couple steps to perform in order to get it going. If you are nunfamiliar follow [these instrunctions](https://laravel.com/docs/5.4/#web-server-configuration)
+As any new [Laravel][lararel] install there is a couple steps to perform in order to get it going. If you are nunfamiliar follow [these instrunctions](https://laravel.com/docs/6.x/#web-server-configuration)
+
+- Adjust your .env file
+
+- Run migrate database:
+```
+php artisan migrate
+```
+- If you want to run factory data:
+
+```
+php artisan db:seed
+```
+
+- Run key generate:
+
+```
+php artisan key:generate
+```
 
 ### Run the Application
 
