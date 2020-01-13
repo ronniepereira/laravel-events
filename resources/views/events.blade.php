@@ -176,6 +176,9 @@
                     <div class="all_events_link">
                         {{ $all_events->links() }}
                     </div>
+                    <div>
+                        <a class="btn btn-warning" href="{{ route('export') }}">Export User Data</a>
+                    </div>
                 </div>
             </div>
         @endif
