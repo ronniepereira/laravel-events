@@ -40,23 +40,3 @@ php artisan serve
 ```
 
 You can then browse to [http://localhost:8000](http://localhost:8000) in your web browser.
-
-### Demo the Application
-
-![](owinteractive.gif)
-
-## Challenge Requirements
-
-The Challenge app requirements will be sent by email, for they change accordinly to the opportunity
-
-## Contact
-
-For more information about opportunities check  [here](https://trampos.co/oportunidades?lc=ow)
-
-[composer]: https://getcomposer.org
-[npm]: https://www.npmjs.com/
-[git]: http://git-scm.com/
-[fork]: http://lmgtfy.com/?q=how+to+fork+a+repo+in+github
-[php]: http://php.net
-[laravel-challenge]: https://github.com/owinteractive/laravel-challenge
-[Laravel]: http://www.laravel.com/docs/5.4
